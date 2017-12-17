@@ -17,7 +17,7 @@ services:
     env_file:
       .env
     restart: always
-    container_name: web
+    container_name: web_app
 
   # mysql
   db:
@@ -27,9 +27,15 @@ services:
     env_file:
       .env
     environment:
-      - MYSQL_DATABASE:my_db
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
     volumes:
-      - ./resources/data/db:/var/lib/mysql
+      - db_data:/var/lib/mysql
       - ./resources/logs/db:/var/log/mysql
-    container_name: db
+    container_name: web_db
+
+volumes:
+  db_data:
